@@ -3,7 +3,7 @@ var CookieNotice = new function(){
 	this.config = {
 			cookie_name : 'cookie-notice-status',
 			cookie_value : 'cookie-accepted',
-			notification_message : 'Questo sito utilizza cookie di profilazione, propri o di altri, per analizzare il traffico degli utenti e offrire servizi personalizzati. Se accedi a un qualunque elemento sottostante questo banner acconsenti all\'uso del cookie.',
+			notification_message : 'Questo sito utilizza cookie di profilazione, propri o di altri, per analizzare il traffico degli utenti e offrire servizi personalizzati. Se accedi a un qualunque elemento al di fuori di questo banner acconsenti all\'uso del cookie.',
 			accept_button : '&times;',
 			notice_id : 'cookie-notice-box',
 			policy_url : false,
