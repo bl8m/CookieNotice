@@ -8,7 +8,8 @@ var CookieNotice = new function(){
 			accept_button : '&times;',
 			notice_id : 'cookie-notice-box',
 			policy_url : false,
-			policy_text : false
+			policy_text : false,
+			position : 'top'
 	};
 	
 	this.init = function(config){
@@ -39,10 +40,16 @@ var CookieNotice = new function(){
 		
 			var message = this.config.notification_message;
 			if(this.config.policy_url != false && this.config.policy_text != false){
+                                
+                                if(this.config.position == 'bottom')
+                                    position_style = 'bottom: 0;';
+                                else
+                                    position_style = 'top: 0;';
+                                
 				message += '<a style="color: #e0e0e0; font-weight: bold;" href="' + this.config.policy_url + '" target="_blank">' + this.config.policy_text + '</a>';
 			}
 						
-			var notice_body = '<div id="' + this.config.notice_id + '" class="cookie-notice" style="z-index: 9999999; position: fixed; background-color: rgba(0,0,0,0.7); color: white; padding: 10px; top:0; left: 0; right: 0; font-size: 16px;"><div class="cookie-notice-message" style="width:90%; float: left;">' + message + '</div><div class="cookie-notice-buttons" style="float: right; font-size: 30px;"><a href="#" onClick="CookieNotice.accept()" style="cursor: pointer; color: white;">' + this.config.accept_button + '</a></div></div>';
+			var notice_body = '<div id="' + this.config.notice_id + '" class="cookie-notice" style="z-index: 9999999; position: fixed; background-color: rgba(0,0,0,0.7); color: white; padding: 10px;' + position_style + ' left: 0; right: 0; font-size: 16px;"><div class="cookie-notice-message" style="width:90%; float: left;">' + message + '</div><div class="cookie-notice-buttons" style="float: right; font-size: 30px;"><a href="#" onClick="CookieNotice.accept()" style="cursor: pointer; color: white;">' + this.config.accept_button + '</a></div></div>';
 		
 			jQuery('body').append(notice_body)
 	}
