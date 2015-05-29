@@ -1,6 +1,5 @@
 var CookieNotice = new function(){
 	
-	
 	this.config = {
 			cookie_name : 'cookie-notice-status',
 			cookie_value : 'cookie-accepted',
@@ -13,17 +12,7 @@ var CookieNotice = new function(){
 	};
 	
 	this.init = function(config){
-            
-                if (typeof jQuery == 'undefined') {
-                    var script = document.createElement('script');
-                    script.type = "text/javascript";
-                    script.src = "http://code.jquery.com/jquery-2.1.4.min.js";
-                    document.getElementsByTagName('head')[0].appendChild(script);
-                }
-            
-            
-		jQuery.extend(this.config, config);
-		
+                this.config = this.mergeAttributes(this.config, config);
 		if(this.getCookie(this.config.cookie_name) != this.config.cookie_value){
 			this.draw();
 		}
@@ -33,25 +22,29 @@ var CookieNotice = new function(){
 	this.accept = function(){
 		
 		this.setCookie(this.config.cookie_name,this.config.cookie_value,30);
-		jQuery('#'+this.config.notice_id).remove();
+                notice = document.getElementById(this.config.notice_id);
+                notice.parentNode.removeChild(notice);
 	}
 	
 	this.draw = function(){
 		
-			var message = this.config.notification_message;
-			if(this.config.policy_url != false && this.config.policy_text != false){
-                                
-                                if(this.config.position == 'bottom')
-                                    position_style = 'bottom: 0;';
-                                else
-                                    position_style = 'top: 0;';
-                                
-				message += '<a style="color: #e0e0e0; font-weight: bold;" href="' + this.config.policy_url + '" target="_blank">' + this.config.policy_text + '</a>';
-			}
-						
-			var notice_body = '<div id="' + this.config.notice_id + '" class="cookie-notice" style="z-index: 9999999; position: fixed; background-color: rgba(0,0,0,0.7); color: white; padding: 10px;' + position_style + ' left: 0; right: 0; font-size: 16px;"><div class="cookie-notice-message" style="width:90%; float: left;">' + message + '</div><div class="cookie-notice-buttons" style="float: right; font-size: 30px;"><a href="#" onClick="CookieNotice.accept()" style="cursor: pointer; color: white;">' + this.config.accept_button + '</a></div></div>';
-		
-			jQuery('body').append(notice_body)
+            var message = this.config.notification_message;
+            var position_style = 'top: 0;';
+
+            if(this.config.position == 'bottom')
+                position_style = 'bottom: 0;';
+
+            if(this.config.policy_url != false && this.config.policy_text != false){
+
+                message += '<a style="color: #e0e0e0; font-weight: bold;" href="' + this.config.policy_url + '" target="_blank">' + this.config.policy_text + '</a>';
+            }
+
+            var notice_body = '<div id="' + this.config.notice_id + '" class="cookie-notice" style="z-index: 9999999; position: fixed; background-color: rgba(0,0,0,0.7); color: white; padding: 10px;' + position_style + ' left: 0; right: 0; font-size: 16px;"><div class="cookie-notice-message" style="width:90%; float: left;">' + message + '</div><div class="cookie-notice-buttons" style="float: right; font-size: 30px;"><a href="#" onClick="CookieNotice.accept()" style="cursor: pointer; color: white;">' + this.config.accept_button + '</a></div></div>';
+
+            bodyElement = document.getElementsByTagName("BODY")[0];
+            bodyElement.innerHTML += notice_body;
+                        
+                        
 	}
 	
 	this.setCookie = function (cname, cvalue, exdays) {
@@ -71,5 +64,12 @@ var CookieNotice = new function(){
 		}
 		return "";
 	}
+        
+        this.mergeAttributes = function(obj1,obj2){
+            var obj3 = {};
+            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+            return obj3;
+        }
 	
 }
