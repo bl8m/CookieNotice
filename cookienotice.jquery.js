@@ -12,7 +12,16 @@ var CookieNotice = new function(){
 	};
 	
 	this.init = function(config){
-		$.extend(this.config, config);
+            
+                if (typeof jQuery == 'undefined') {
+                    var script = document.createElement('script');
+                    script.type = "text/javascript";
+                    script.src = "http://code.jquery.com/jquery-2.1.4.min.js";
+                    document.getElementsByTagName('head')[0].appendChild(script);
+                }
+            
+            
+		jQuery.extend(this.config, config);
 		
 		if(this.getCookie(this.config.cookie_name) != this.config.cookie_value){
 			this.draw();
@@ -23,7 +32,7 @@ var CookieNotice = new function(){
 	this.accept = function(){
 		
 		this.setCookie(this.config.cookie_name,this.config.cookie_value,30);
-		$('#'+this.config.notice_id).remove();
+		jQuery('#'+this.config.notice_id).remove();
 	}
 	
 	this.draw = function(){
@@ -35,7 +44,7 @@ var CookieNotice = new function(){
 						
 			var notice_body = '<div id="' + this.config.notice_id + '" class="cookie-notice" style="z-index: 9999999; position: fixed; background-color: rgba(0,0,0,0.7); color: white; padding: 10px; top:0; left: 0; right: 0; font-size: 16px;"><div class="cookie-notice-message" style="width:90%; float: left;">' + message + '</div><div class="cookie-notice-buttons" style="float: right; font-size: 30px;"><a href="#" onClick="CookieNotice.accept()" style="cursor: pointer; color: white;">' + this.config.accept_button + '</a></div></div>';
 		
-			$('body').append(notice_body)
+			jQuery('body').append(notice_body)
 	}
 	
 	this.setCookie = function (cname, cvalue, exdays) {
